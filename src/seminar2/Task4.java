@@ -22,6 +22,14 @@ public class Task4 {
         return tmpArr;
     }
 
+
+    // использование копирования массива
+    private static int[] arrayEndAddElementCopyOf(int[] array, int num) {
+        int[] tmpArr = Arrays.copyOf(array, array.length + 1);
+        tmpArr[array.length] = num;
+        return tmpArr;
+    }
+
     private static int[] arrayIndexAddElement(int[] array, int num, int index) {
         int tmpArr[] = new int[array.length + 1];
         for (int i = 0; i < array.length; i++) {
@@ -37,6 +45,25 @@ public class Task4 {
         return tmpArr;
     }
 
+    // вариант преподавателя
+    public static int[] insertIntoArray(int[] arr, int value, int index) {
+        if (index < 0 || index > arr.length) {
+            throw new IllegalArgumentException("Индекс вышел за рамки массива");
+        }
+        int[] result = new int[arr.length + 1];
+
+        System.arraycopy(arr, 0, result, 0, index); // копируется первая половина элементов в новый массив
+        result[index] = value; // разрыв, то есть новый элемент по индексу
+        System.arraycopy(arr, index, result, index+1, arr.length-index); // вторая половина массива, после индекса
+        return result;
+    }
+
+
+    // перегруженный верхний метод, где добавляется просто в конец
+    public static int[] insertIntoArray(int[] arr, int value) {
+        return insertIntoArray(arr, value, arr.length);
+    }
+
 
     public static void main(String[] args) {
         int[] myarray = {2, 8, 4, 5, 1, 11, 3};
@@ -46,5 +73,9 @@ public class Task4 {
         int[] newArray1 = arrayIndexAddElement(myarray, num, index);
         System.out.println(Arrays.toString(newArray0));
         System.out.println(Arrays.toString(newArray1));
+        int[] newArray2 = arrayEndAddElementCopyOf(myarray, num);
+        System.out.println(Arrays.toString(newArray2));
+        int[] newArray3 = insertIntoArray(myarray, 55, 4);
+        System.out.println(Arrays.toString(newArray3));
     }
 }
